@@ -1,4 +1,4 @@
-# 🚀 Mentor Connect – Smart India Hackathon 2024
+# Mentor Connect – Smart India Hackathon 2024
 
 
 
