@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        select {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #mentor-list {
+            margin-top: 20px;
+        }
+
+        .mentor {
+            background: #e9e9e9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mentor:hover {
+            background: #dcdcdc;
+        }
+
+        #mentor-profile {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #mentor-profile .profile {
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        #mentor-profile h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Your Mentor</h1>
+        <label for="sector">Select Sector:</label>
+        <div class="selector">
+            <select id="sector">
+                <option value="">--Select Sector--</option>
+                <option value="technology">Technology</option>
+                <option value="finance">Finance</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="education">Education</option>
+            </select>
+            <button onclick="fetchMentors()">Fetch</button>
+        </div>
+
+        <div id="mentor-list">
+            <!-- Mentor list will be displayed here -->
+        </div>
+
+        <div id="mentor-profile">
+            <!-- Mentor profile details will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        const mentors = {
+            technology: [
+                { name: "Harsha", experience: "10 years", bio: "Harsha is a senior software engineer specializing in AI and machine learning. She has worked on several large-scale projects and loves mentoring upcoming tech enthusiasts." },
+                { name: "Akshith Reddy", experience: "8 years", bio: "Akshith Reddy is a full-stack developer with a passion for cloud computing. He enjoys helping others navigate the complexities of modern software development." }
+            ],
+            finance: [
+                { name: "Ramu", experience: "15 years", bio: "Ramu is a seasoned financial analyst with expertise in risk management and portfolio optimization. He has mentored several professionals in the finance industry." },
+                { name: "Roe", experience: "12 years", bio: "Roe is a financial consultant specializing in investment strategies. Her mentees have consistently praised her for her clear and insightful guidance." }
+            ],
+            healthcare: [
+                { name: "jon", experience: "20 years", bio: "jon is a healthcare management expert with a focus on hospital administration and public health. She has a passion for improving healthcare systems." },
+                { name: "Akshith", experience: "7 years", bio: "Akshith is a clinical researcher with a background in pharmacology. He has mentored numerous young researchers entering the healthcare field." }
+            ],
+            education: [
+                { name: "Deepakraj", experience: "9 years", bio: "Deepakraj is an educator with a deep understanding of modern teaching methodologies. She is committed to improving educational outcomes through innovative strategies." },
+                { name: "Harsha", experience: "5 years", bio: "Harsha is a curriculum developer focused on integrating technology into the classroom. He enjoys mentoring educators who are keen on adopting new tools." }
+            ]
+        };
+
+        function fetchMentors() {
+            const sector = document.getElementById('sector').value;
+            const mentorList = document.getElementById('mentor-list');
+            const mentorProfile = document.getElementById('mentor-profile');
+            
+            mentorList.innerHTML = ''; // Clear the previous results
+            mentorProfile.style.display = 'none'; // Hide the profile section
+
+            if (sector && mentors[sector]) {
+                mentors[sector].forEach((mentor, index) => {
+                    const mentorDiv = document.createElement('div');
+                    mentorDiv.className = 'mentor';
+                    mentorDiv.innerHTML = `<strong>${mentor.name}</strong><br>Experience: ${mentor.experience}`;
+                    mentorDiv.onclick = () => displayMentorProfile(sector, index);
+                    mentorList.appendChild(mentorDiv);
+                });
+            } else {
+                mentorList.innerHTML = '<p>Please select a sector.</p>';
+            }
+        }
+
+        function displayMentorProfile(sector, index) {
+            const mentorProfile = document.getElementById('mentor-profile');
+            const mentor = mentors[sector][index];
+
+            mentorProfile.innerHTML = `
+                <div class="profile">
+                    <h2>${mentor.name}</h2>
+                    <p><strong>Experience:</strong> ${mentor.experience}</p>
+                    <p><strong>Bio:</strong> ${mentor.bio}</p>
+                    <button onclick="bookDemo('${mentor.name}')">Book a Demo</button>
+                </div>
+            `;
+            mentorProfile.style.display = 'block';
+        }
+
+        function bookDemo(mentorName) {
+            // Navigate to slot.html page when the user clicks "Book a Demo"
+            window.location.href = `slot.html?mentor=${encodeURIComponent(mentorName)}`;
+        }
+    </script>
+</body>
+</html>
